@@ -1,24 +1,14 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- */
-
-import React, { useState } from 'react';
+import React from 'react';
 import {
-  Button,
   Dimensions,
-  StyleSheet,
-  Text,
-  TextInput,
   View,
-  Platform,
   FlatList,
   Pressable,
+  ScrollView,
 } from 'react-native';
+import RNETText from '../components/RNETText';
 
-const HomeScreen = ({navigation}: {navigation: any}) => {
+const HomeScreen = ({ navigation }: { navigation: any }) => {
 
   const { width, height } = Dimensions.get('screen')
 
@@ -73,7 +63,58 @@ const HomeScreen = ({navigation}: {navigation: any}) => {
             },
           ]
         }
-      }
+      },
+      // {
+      //   id: 10,
+      //   title: 'Petronas',
+      //   expensesType: 'personal',
+      //   currency: 'RM',
+      //   spent: '200.00',
+      //   txnAmount: '200.00',
+      //   date: '28 October 2024',
+      //   time: '3:46 PM',
+      //   expensesDetail: {
+      //     receiptImage: null,
+      //     otherFeeCurrency: null,
+      //     otherFeePrice: null,
+      //     note: 'test note',
+      //     splitBill: []
+      //   }
+      // },
+      // {
+      //   id: 11,
+      //   title: 'Sport Direct',
+      //   expensesType: 'personal',
+      //   currency: 'RM',
+      //   spent: '200.00',
+      //   txnAmount: '200.00',
+      //   date: '28 October 2024',
+      //   time: '3:46 PM',
+      //   expensesDetail: {
+      //     receiptImage: null,
+      //     otherFeeCurrency: null,
+      //     otherFeePrice: null,
+      //     note: 'test note',
+      //     splitBill: []
+      //   }
+      // },
+      // {
+      //   id: 12,
+      //   title: 'Sport Direct',
+      //   expensesType: 'personal',
+      //   currency: 'RM',
+      //   spent: '200.00',
+      //   txnAmount: '200.00',
+      //   date: '28 October 2024',
+      //   time: '3:46 PM',
+      //   expensesDetail: {
+      //     receiptImage: null,
+      //     otherFeeCurrency: null,
+      //     otherFeePrice: null,
+      //     note: 'test note',
+      //     splitBill: []
+      //   }
+      // },
     ]
 
   }
@@ -81,58 +122,39 @@ const HomeScreen = ({navigation}: {navigation: any}) => {
   return (
     <View
       style={{ flex: 1, width: width, paddingHorizontal: '6%', backgroundColor: '#E4F0FA' }}>
-        <View style={{height: '5%'}}/>
-        <Text style={{fontSize: 28, color: '#334669', fontFamily: 'Raleway-Bold'}}>{`Hi ${EXPENSES_DATA.userName},`}</Text>
-        <View style={{height: '5%'}}/>
-        <View style={{alignItems: 'center', justifyContent: 'center'}}>
-          <Text style={{fontSize: 14, color: '#334669', fontFamily: 'Raleway-Regular'}}>{`You have spent a total of`}</Text>
-          <Text style={{fontSize: 28, color: '#334669', fontVariant: 'lining-nums', fontFamily: 'Raleway-Bold'}}>{`${EXPENSES_DATA.currency} ${EXPENSES_DATA.totalSpending}`}</Text>
-        </View>
-        <View style={{height: '5%'}}/>
-        <FlatList
+      <View style={{ height: height * 0.05 }} />
+      <RNETText size={28} weight="bold">{`Hi ${EXPENSES_DATA.userName},`}</RNETText>
+      <View style={{ height: height * 0.05 }} />
+      <View style={{ alignItems: 'center', justifyContent: 'center' }}>
+        <RNETText size={14} weight="regular">{`You have spent a total of`}</RNETText>
+        <RNETText size={28} weight="bold">{`${EXPENSES_DATA.currency} ${EXPENSES_DATA.totalSpending}`}</RNETText>
+      </View>
+      <View style={{ height: height * 0.05 }} />
+      <FlatList
         data={EXPENSES_DATA.expensesTrackingLists}
-        renderItem={({item}) => {
+        renderItem={({ item }) => {
           return (
-            <View style={{alignItems: 'center'}}>
-            <Pressable 
-              style={{width: width * 0.8, height: height * 0.07, backgroundColor: '#fff', borderRadius: 10, elevation: 5, justifyContent: 'center', flexDirection: 'row'}}
-              onPress={() => navigation.navigate('Detail', {params: item})}
-            >
-              <View style={{ width: '100%', flexDirection: 'row', alignItems: 'center', paddingHorizontal: '6%', justifyContent: 'space-between'}}>
-              <Text>{item.title}</Text>
-              <Text>{`${item.currency} ${item.spent}`}</Text>
-              </View>
-            </Pressable>
-            <View style={{height: '20%'}}/>
+            <View style={{ alignItems: 'center' }}>
+              <Pressable
+                style={{ width: width * 0.8, height: height * 0.07, backgroundColor: '#fff', borderRadius: 10, elevation: 5, justifyContent: 'center', flexDirection: 'row' }}
+                onPress={() => navigation.navigate('Detail', { params: item })}
+              >
+                <View style={{ width: '100%', flexDirection: 'row', alignItems: 'center', paddingHorizontal: '6%', justifyContent: 'space-between' }}>
+                  <RNETText size={14} weight="regular">{item.title}</RNETText>
+                  <RNETText size={14} weight="bold">{`${item.currency} ${item.spent}`}</RNETText>
+                </View>
+              </Pressable>
+              <View style={{ height: height * 0.02 }} />
             </View>
           )
         }}
         keyExtractor={(item: any) => item.id}
       />
-        <View>
+      <View>
 
-        </View>
+      </View>
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
-  },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
-  },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-  },
-  highlight: {
-    fontWeight: '700',
-  },
-});
 
 export default HomeScreen;

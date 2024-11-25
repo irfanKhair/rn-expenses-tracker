@@ -1,14 +1,8 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- */
-
 import React, { useState } from 'react';
 import {
   Button,
   Dimensions,
+  Pressable,
   StyleSheet,
   Text,
   TextInput,
@@ -16,6 +10,7 @@ import {
 } from 'react-native';
 import { signInWithEmailAndPassword } from "firebase/auth";
 import {auth} from '../firebase'
+import RNETText from '../components/RNETText';
 
 
 
@@ -24,6 +19,7 @@ const LoginScreen = ({navigation}: {navigation: any}) => {
   const { width, height } = Dimensions.get('screen')
   const [email, setEmail] = useState('admin@lama.dev');
   const [password, setPassword] = useState('Test1234');
+  const [secureText, setSecureText] = useState(true); 
 
   const onSubmitHandler = () => {
     signInWithEmailAndPassword(auth, email, password)
@@ -44,46 +40,89 @@ const LoginScreen = ({navigation}: {navigation: any}) => {
 
   return (
     <View
-      style={{ flex: 1, width: width, paddingHorizontal: '6%', alignItems: 'center', paddingTop: '10%', backgroundColor: '#E4F0FA' }}>
-        <Text style={{paddingBottom: '20%', fontSize: 20, color: '#334669'}}>Log In</Text>
+      style={{ flex: 1, width: width, paddingHorizontal: '6%', alignItems: 'center', backgroundColor: '#E4F0FA' }}>
+        <View style={{ height: height * 0.05 }} />
+          <RNETText size={28} weight="bold">
+              {`Log In`}
+          </RNETText>
+        <View style={{ height: height * 0.05 }} />
+        <View>
+          <RNETText size={14} weight="bold" style={{paddingBottom: '1%'}}>
+              {`Email`}
+          </RNETText>
+          <TextInput
+            style={{
+              height: 40,
+              width: width * 0.8,
+              borderWidth: 1,
+              padding: 10,
+              borderRadius: 10,
+              borderColor: '#EEEEEE',
+              backgroundColor: '#FFFfFA',
+              elevation: 5,
+              fontSize: 16,
+              fontFamily: 'Raleway-Regular',
+              fontVariant: ['lining-nums']
+            }}
+            onChangeText={setEmail}
+            placeholderTextColor={'#ccc'}
+            placeholder='Input email'
+            value={email}
+          />
+        </View>
+        <View style={{ height: height * 0.02 }} />
       <View>
-        <Text style={{paddingBottom: '2%'}}>Email</Text>
+        <RNETText size={14} weight="bold" style={{paddingBottom: '1%'}}>
+            {`Password`}
+        </RNETText>
+        <View style={{flexDirection: 'row'}}>
+
         <TextInput
           style={{
             height: 40,
-            width: width * 0.84,
+            width: width * 0.6,
             borderWidth: 1,
             padding: 10,
-            borderRadius: 10,
+            borderTopLeftRadius: 10,
+            borderBottomLeftRadius: 10,
             borderColor: '#EEEEEE',
             backgroundColor: '#FFFfFA',
-            elevation: 5
+            elevation: 5,
+            color: '#334669',
+            fontSize: 16,
+            fontFamily: 'Raleway-Regular',
+            fontVariant: ['lining-nums'],
           }}
-          onChangeText={setEmail}
-          placeholderTextColor={'#ccc'}
-          placeholder='Input email'
-          value={email}
-        />
-      </View>
-      <View style={{paddingVertical: '4%'}}/>
-      <View>
-        <Text style={{paddingBottom: '2%'}}>Password</Text>
-        <TextInput
-          style={{
-            height: 40,
-            width: width * 0.84,
-            borderWidth: 1,
-            padding: 10,
-            borderRadius: 10,
-            borderColor: '#EEEEEE',
-            backgroundColor: '#FFFfFA',
-            elevation: 5
-          }}
+          secureTextEntry = {secureText}// {true}
           placeholder='********'
           placeholderTextColor={'#ccc'}
           onChangeText={setPassword}
           value={password}
         />
+        <Pressable 
+          onPressIn={() => {
+            setSecureText(!secureText);
+          }}
+          onPressOut={() => {
+            setSecureText(!secureText);
+          }}
+          style={{
+            width: width * 0.2, 
+            alignItems: 'center', 
+            justifyContent: 'center', 
+            backgroundColor: '#FFFfFA', 
+            elevation: 1,
+            borderTopRightRadius: 10,
+            borderBottomRightRadius: 10, 
+            borderColor: '#EEEEEE',
+            borderWidth: 0.5,
+        }}
+        >
+        <RNETText size={14} weight="bold">
+          {secureText ? 'Show' : 'Hide'}
+        </RNETText>
+      </Pressable>
+        </View>
       </View>
       <View style={{paddingVertical: '4%'}}/>
       <View style={{width: width * 0.6}}>
@@ -95,10 +134,25 @@ const LoginScreen = ({navigation}: {navigation: any}) => {
         />
       </View>
       <View style={{paddingVertical: '4%'}}/>
-      <Text style={{paddingBottom: '2%'}} >Don't have an account? <Text style={{textDecorationLine: 'underline', color: 'blue'}} onPress={() => {
+      <RNETText size={14} weight="regular">
+          {`Don't have an account? `}
+          <RNETText 
+            size={14} 
+            weight="bold" 
+            style={{
+              textDecorationLine: 'underline', 
+              color: 'blue'
+            }} 
+            onPress={() => {
+              navigation.navigate('Signup')
+          }}>
+            {`Sign Up here!`}
+          </RNETText>
+      </RNETText>
+      {/* <Text style={{paddingBottom: '2%'}} >Don't have an account? <Text style={{textDecorationLine: 'underline', color: 'blue'}} onPress={() => {
         navigation.navigate('Signup')
       }}>Sign Up here!</Text>
-      </Text>
+      </Text> */}
     </View>
   );
 }
